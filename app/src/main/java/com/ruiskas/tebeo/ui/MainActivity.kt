@@ -30,10 +30,6 @@ class MainActivity : AppCompatActivity() {
         initViewModel()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(findNavController(R.id.nav_host_fragment), null)
-    }
-
     private fun initViewModel() {
         mainViewModel.loadConfiguration()
     }

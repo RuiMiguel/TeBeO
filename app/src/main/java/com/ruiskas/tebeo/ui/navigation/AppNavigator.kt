@@ -2,9 +2,9 @@ package com.ruiskas.tebeo.ui.navigation
 
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
-import com.ruiskas.tebeo.MainNavigationDirections
 import com.ruiskas.tebeo.R
 import com.ruiskas.tebeo.ui.base.navigation.BaseNavigator
+import com.ruiskas.tebeo.ui.splash.SplashFragmentDirections
 
 class AppNavigator : BaseNavigator.AppBaseNavigator() {
     fun goBack() {
@@ -18,10 +18,12 @@ class AppNavigator : BaseNavigator.AppBaseNavigator() {
     }
 
     fun goToStart(clearBackStack: Boolean) {
+        fragment?.findNavController()?.navigate(SplashFragmentDirections.actionToScreenHome())
+        /*
         val clearOptions =
             clearBackStackTo(
                 clear = clearBackStack,
-                to = R.id.screen_home,
+                to = R.id.screen_splash,
                 popUpToInclusive = true
             )
 
@@ -32,9 +34,9 @@ class AppNavigator : BaseNavigator.AppBaseNavigator() {
                     anim {
                         enter = R.anim.alpha_in
                         exit = R.anim.alpha_out
-                        popEnter = R.anim.alpha_in
                         popExit = R.anim.alpha_out
                     }
                 })
+         */
     }
 }
