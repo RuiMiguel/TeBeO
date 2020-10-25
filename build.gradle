@@ -6,8 +6,6 @@ buildscript {
     ext {
         kotlin_version = '1.4.10'
         gradle_plugin = '4.0.2'
-        google_services = '4.3.3'
-        crashlytics = '2.2.0'
         arch_navigation = '2.2.0'
     }
     repositories {
@@ -18,8 +16,6 @@ buildscript {
         classpath "com.android.tools.build:gradle:${gradle_plugin}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$arch_navigation"
-        classpath "com.google.gms:google-services:$google_services"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlytics"
     }
 }
 

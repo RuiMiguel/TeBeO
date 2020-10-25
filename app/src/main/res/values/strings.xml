@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">TeBeO</string>
+    <string name="transition_value_text">transition_value_text</string>
+
+    <string name="splash">Splash</string>
+    <string name="home">Home</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="success">Éxito</string>
+    <string name="scan">Escanear</string>
+    <string name="alert">Alerta</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="edit">Editar</string>
+    <string name="save">Guardar</string>
 </resources>

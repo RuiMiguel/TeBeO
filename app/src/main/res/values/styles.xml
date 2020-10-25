@@ -1,10 +1,82 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+    <style name="TextInputEditStyle" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
+        <item name="android:singleLine">true</item>
+        <item name="background">@drawable/input_background</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textColorHint">@color/dark_blue</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:minHeight">65dp</item>
     </style>
 
+    <style name="CustomSwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="android:thumb">@drawable/ic_switch_thumb</item>
+        <item name="android:thumbTint">@color/white</item>
+    </style>
+
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/acre_medium</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="iconGravity">textStart</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <style name="TextIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:textColor">@drawable/selector_button_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="iconPadding">10dp</item>
+        <item name="iconGravity">start</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <style name="MenuIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:padding">18dp</item>
+        <item name="iconPadding">10dp</item>
+        <item name="iconGravity">start</item>
+        <item name="iconSize">26dp</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <style name="OutlinedDarkButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@drawable/selector_alert_button_text</item>
+        <item name="strokeColor">@drawable/selector_alert_button_text</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:radius">6dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingEnd">30dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <style name="ContainedDarkButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@drawable/selector_alert_button_text</item>
+        <item name="background">@drawable/selector_contained_button_background</item>
+        <item name="android:radius">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="elevation">1dp</item>
+    </style>
 </resources>
+
