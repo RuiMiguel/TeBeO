@@ -1,0 +1,10 @@
+ext {
+    version = [major: 0,
+               minor: 1,
+               patch: 0]
+
+    demo = [appName      : 'TeBeO Comic Reader',
+            applicationId: [debug: 'com.ruiskas.tebeo'],
+
+    ]
+}

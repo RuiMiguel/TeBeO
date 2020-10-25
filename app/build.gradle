@@ -1,0 +1,187 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply from: '../ktlint.gradle'
+
+android {
+    compileSdkVersion androidSdk.compile
+
+    defaultConfig {
+        minSdkVersion androidSdk.min
+        targetSdkVersion androidSdk.target
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            def props = new Properties()
+
+            def fileInputStream = new FileInputStream(file('../signing.properties'))
+            props.load(fileInputStream)
+            fileInputStream.close()
+
+            storeFile = file(props['storeFilePath'])
+            storePassword = props['storePassword']
+            keyAlias = props['keyAlias']
+            keyPassword = props['keyPassword']
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    productFlavors.whenObjectAdded { flavor ->
+        def version = rootProject.ext.version
+
+        flavor.versionCode generateAutoVersionCode()
+        flavor.versionName generateVersionName(version)
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        demo {
+            dimension "default"
+        }
+    }
+
+    project.android.applicationVariants.all { variant ->
+        variant.productFlavors.each { flavor ->
+
+            def flavorData = rootProject.ext[flavor.name]
+            def appName = flavorData.appName
+            def appId = getVariantFieldValue(flavorData.applicationId, variant.buildType.name)
+            def version = generateVersionName(rootProject.ext.version)
+            def code = generateAutoVersionCode()
+            def buildTime = new GregorianCalendar().format("MM-dd-yyyy' 'h:mm:ss a z")
+
+            if (variant.buildType.name != "release") {
+                def prefix = ""
+                if (variant.buildType.name == "debug") {
+                    //gitSha = "DEBUG"
+                    buildTime = "DEBUG"
+                    prefix = "[D] "
+                }
+
+                appName = prefix + appName + "_$variant.buildType.name" + "_$version" + "($code)"
+            }
+
+            setVariantApplicationId(variant, appId)
+            setVariantResValue(variant, appName, "app_name", STRING.toLowerCase())
+
+            setVariantBuildConfigField(variant, flavorData.supportEmail, "SUPPORT_EMAIL", STRING)
+            setVariantBuildConfigField(variant, flavorData.apiUrl, "API_URL", STRING)
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.appcompat:appcompat:$libraries.appcompat"
+    implementation "androidx.appcompat:appcompat:$libraries.appcompat"
+    implementation "com.google.android.material:material:$libraries.material"
+    implementation "androidx.constraintlayout:constraintlayout:$libraries.constraintLayout"
+    implementation "androidx.vectordrawable:vectordrawable:$libraries.vectordrawable"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$libraries.ktx"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$libraries.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$libraries.coroutines"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$libraries.lifecycle"
+
+    // Arrow
+    implementation "io.arrow-kt:arrow-core:$libraries.arrow"
+
+    // Koin for Kotlin
+    implementation "org.koin:koin-android:$libraries.koin"
+    implementation "org.koin:koin-androidx-viewmodel:$libraries.koin"
+
+    // View Model and Live Data
+    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.lifecycle"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$libraries.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$libraries.navigation"
+
+    // Retrofit
+    implementation "com.google.code.gson:gson:$libraries.gson"
+    implementation "com.squareup.retrofit2:retrofit:$libraries.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$libraries.retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$libraries.okhttp3"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$libraries.glide"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "com.github.bumptech.glide:compiler:$libraries.glide"
+    implementation("com.github.bumptech.glide:okhttp3-integration:${libraries.glide}") {
+        exclude group: 'glide-parent'
+    }
+
+    implementation "com.github.Gigigo-Android-Devs:gigigo-baseRecyclerAdapter-library-android:$libraries.baseRecyclerAdapter"
+    implementation "com.github.Gigigo-Android-Devs:gigigo-permissions-library-android:$libraries.permissions"
+
+    // Logs
+    implementation "com.jakewharton.timber:timber:$libraries.timber"
+
+    debugImplementation "com.amitshekhar.android:debug-db:$libraries.debugDatabase"
+
+    testImplementation "junit:junit:$testLibraries.junit"
+    testImplementation "org.junit.jupiter:junit-jupiter:$testLibraries.junit5"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.0-M1"
+    testImplementation "org.koin:koin-test:$libraries.koin"
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation "androidx.arch.core:core-testing:$testLibraries.archCore"
+    testImplementation "org.mockito:mockito-core:$testLibraries.mockito"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$testLibraries.mockitoKotlin"
+    testImplementation "org.amshove.kluent:kluent:$testLibraries.kluent"
+    testImplementation "org.assertj:assertj-core:$testLibraries.assertj"
+
+    androidTestImplementation "androidx.test:core-ktx:$testLibraries.testCore"
+    androidTestImplementation "androidx.test:runner:$testLibraries.testRunner"
+    androidTestImplementation "androidx.test:rules:$testLibraries.testRules"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$testLibraries.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$testLibraries.espresso"
+}
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
